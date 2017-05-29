@@ -1,6 +1,11 @@
 package com.spilna.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -10,6 +15,10 @@ public class User extends AbstractPersistable<Long> {
 	private String userId;
 	private String userName;
 	private String password;
+	
+	@OneToMany(targetEntity=Address.class, mappedBy="user",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private Set<Address> addresses;
+	
 	public String getUserId() {
 		return userId;
 	}
