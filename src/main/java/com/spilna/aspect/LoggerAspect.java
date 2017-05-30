@@ -2,6 +2,7 @@ package com.spilna.aspect;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -17,6 +18,13 @@ public class LoggerAspect {
 	@Pointcut("execution(* com.spilna.*.*.*(..))")
 	private void generalPointcut(){
 		
+	}
+	
+	@AfterThrowing(pointcut="generalPointcut() throws Exception", throwing="ex")
+	public void exceptionLog(JoinPoint joinPoint, Exception ex){
+		logger.error(joinPoint.getTarget().getClass().getSimpleName()+" : "+joinPoint.getSignature().getName()
+				+" : "+ex.getMessage());
+
 	}
 	
 	@Before("generalPointcut")
